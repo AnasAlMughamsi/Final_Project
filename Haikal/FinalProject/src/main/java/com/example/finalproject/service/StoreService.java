@@ -3,6 +3,7 @@ package com.example.finalproject.service;
 import com.example.finalproject.api.ApiException;
 import com.example.finalproject.model.Customer;
 import com.example.finalproject.model.Store;
+import com.example.finalproject.model.User;
 import com.example.finalproject.repository.CustomerRepository;
 import com.example.finalproject.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,8 @@ public class StoreService {
 
     public void addStore(Store store) {
         // TODO: I think need to check if I need to add User before adding a Store or not
+        User user = new User();
+        user.setRole("store");
         storeRepository.save(store);
     }
 
