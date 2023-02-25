@@ -40,5 +40,5 @@ public class StoreController {
         return ResponseEntity.status(200).body("Store deleted!");
     }
 
-    // TODO:
+    // TODO: assign customer to store
 }

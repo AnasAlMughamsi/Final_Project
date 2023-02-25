@@ -45,5 +45,7 @@ public class CustomerController {
         return ResponseEntity.status(200).body("Customer deleted!");
     }
 
+    // TODO: assign order to customer
+
 
 }
