@@ -22,6 +22,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    /*
+     TODO: (check with Majd/Maha) I don't think I need username & password
+        if both the customer/store class  have username & password
+    */
+
     @NotEmpty(message = "username is required")
     private String username;
 
