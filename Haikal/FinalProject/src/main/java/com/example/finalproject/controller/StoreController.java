@@ -23,20 +23,22 @@ public class StoreController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addMerchant(@Valid @RequestBody Store store) {
+    public ResponseEntity<String> addStore(@Valid @RequestBody Store store) {
         storeService.addStore(store);
         return ResponseEntity.status(200).body("Store added!");
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateMerchant(@PathVariable Integer id, @Valid @RequestBody Store updateStore) {
+    public ResponseEntity<String> updateStore(@PathVariable Integer id, @Valid @RequestBody Store updateStore) {
         storeService.updateStore(updateStore, id);
         return ResponseEntity.status(200).body("Store updated!");
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteMerchant(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteStore(@PathVariable Integer id) {
         storeService.deleteStore(id );
         return ResponseEntity.status(200).body("Store deleted!");
     }
+
+    // TODO:
 }
