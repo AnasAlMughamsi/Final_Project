@@ -15,8 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StoreService {
 
-    private StoreRepository storeRepository;
-    private CustomerRepository customerRepository;
+    private final StoreRepository storeRepository;
+    private final CustomerRepository customerRepository;
 
     public List<Store> getAllStores() {
         return storeRepository.findAll();

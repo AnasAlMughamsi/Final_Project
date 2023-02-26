@@ -9,8 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor @NoArgsConstructor
 @Table(name = "store")
 @Entity
@@ -20,24 +19,24 @@ public class Store {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty(message = "storeName is required")
+//    @NotEmpty(message = "store name is required")
     private String storeName;
 
-    @NotEmpty(message = "city is required")
-    private String city;
-    @NotEmpty(message = "district is required")
-    private String district;
+//    @NotEmpty(message = "city is required")
+//    private String city;
+//    @NotEmpty(message = "district is required")
+//    private String district;
+//
+//    @NotEmpty(message = "street is required")
+//    private String street;
+//    @NotEmpty(message = "phone number is required")
+//    private String phoneNumber;
+//
+//    @NotEmpty(message = "email number is required")
+//    @Email(message = "Please enter a valid email")
+//    private String email;
 
-    @NotEmpty(message = "street is required")
-    private String street;
-    @NotEmpty(message = "phone number is required")
-    private String phoneNumber;
-
-    @NotEmpty(message = "email number is required")
-    @Email(message = "Please enter a valid email")
-    private String email;
-
-    @NotEmpty(message = "company register certification number is required")
+//    @NotEmpty(message = "company register certification number is required")
     private String companyRegisterUrl;
     private boolean isActive; // by admin
     private String commercialLicense;
@@ -50,11 +49,10 @@ public class Store {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "store")
     private List<Product> productList;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
+//    @ManyToOne
+//    @JsonIgnore
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private User user;
 
 
 }

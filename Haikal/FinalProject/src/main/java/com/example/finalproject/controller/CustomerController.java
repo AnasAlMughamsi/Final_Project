@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/v1/customer")
 public class CustomerController {
 
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Customer>> getAllCustomers() {
@@ -46,6 +46,8 @@ public class CustomerController {
     }
 
     // TODO: assign order to customer
+
+
 
 
 }

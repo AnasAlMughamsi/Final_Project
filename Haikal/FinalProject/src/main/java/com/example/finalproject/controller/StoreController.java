@@ -14,12 +14,16 @@ import java.util.List;
 @RequestMapping("/api/v1/store")
 public class StoreController {
 
-    private StoreService storeService;
+    private final StoreService storeService;
 
-    @GetMapping("/get")
+    @GetMapping("/all")
     public ResponseEntity<List<Store>> getAllStore() {
         List<Store> stores = storeService.getAllStores();
         return ResponseEntity.status(200).body(stores);
+    }
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Store> getStoreById(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(storeService.getStoreById(id));
     }
 
     @PostMapping("/add")
@@ -41,4 +45,10 @@ public class StoreController {
     }
 
     // TODO: assign customer to store
+
+    @PostMapping("/{store_id}/store/{customer_id}")
+    public ResponseEntity<String> assignCustomerAsUser(@PathVariable Integer store_id, @PathVariable Integer customer_id) {
+        storeService.assignCustomerToStore(store_id, customer_id);
+        return ResponseEntity.status(200).body("Assign customer to store!");
+    }
 }
