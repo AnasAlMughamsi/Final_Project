@@ -1,6 +1,6 @@
 package com.example.finalproject.service;
 
-import com.example.finalproject.model.Order;
+import com.example.finalproject.model.MyOrder;
 import com.example.finalproject.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,17 +13,17 @@ public class OrderService
 {
     private final OrderRepository orderRepository;
 
-    public List<Order> getOrder()
+    public List<MyOrder> getOrder()
     {
         return orderRepository.findAll();
     }
-    public void addOrder(Order order)
+    public void addOrder(MyOrder order)
     {
         orderRepository.save(order);
     }
-    public boolean updateOrder(Integer id,Order order)
+    public boolean updateOrder(Integer id,MyOrder order)
     {
-        Order order1 = orderRepository.findOrdersById(id);
+        MyOrder order1 = orderRepository.findOrdersById(id);
         if(order1==null)
             return false;
         order.setId(id);
@@ -32,7 +32,7 @@ public class OrderService
     }
     public boolean deleteOrder(Integer id)
     {
-        Order order = orderRepository.findOrdersById(id);
+        MyOrder order = orderRepository.findOrdersById(id);
         if(order==null)
             return false;
         orderRepository.delete(order);

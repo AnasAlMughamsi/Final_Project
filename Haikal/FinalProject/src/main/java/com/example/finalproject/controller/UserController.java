@@ -1,8 +1,8 @@
 package com.example.finalproject.controller;
 
 
-import com.example.finalproject.model.User;
-import com.example.finalproject.service.UserService;
+import com.example.finalproject.model.MyUser;
+import com.example.finalproject.service.MyUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,34 +15,34 @@ import java.util.List;
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    private final UserService userService;
+    private final MyUserService myUserService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> customers = userService.getAllUsers();
+    public ResponseEntity<List<MyUser>> getAllUsers() {
+        List<MyUser> customers = myUserService.getAllMyUsers();
         return ResponseEntity.status(200).body(customers);
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity getUserById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(userService.getUserById(id));
+        return ResponseEntity.status(200).body(myUserService.getMyUserById(id));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addUser(@Valid @RequestBody User customer) {
-        userService.addUser(customer);
+    public ResponseEntity<String> addUser(@Valid @RequestBody MyUser customer) {
+        myUserService.addMyUser(customer);
         return ResponseEntity.status(200).body("User added!");
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Integer id, @Valid @RequestBody User updateUser) {
-        userService.updateUser(updateUser, id);
+    public ResponseEntity<String> updateUser(@PathVariable Integer id, @Valid @RequestBody MyUser updateUser) {
+        myUserService.updateMyUser(updateUser, id);
         return ResponseEntity.status(200).body("User updated!");
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
+
         return ResponseEntity.status(200).body("User deleted!");
     }
 

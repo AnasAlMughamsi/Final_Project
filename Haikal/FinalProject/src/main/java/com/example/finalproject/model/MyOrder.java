@@ -15,8 +15,8 @@ import java.util.List;
 @Entity
 @Data
 @AllArgsConstructor @NoArgsConstructor
-public class Order
-{
+@Table(name = "order")
+public class MyOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -24,15 +24,17 @@ public class Order
     @Positive( message = "Total price must be positive!")
     private double totalPrice;
     @NotEmpty(message = "The status can not be empty")
-    private String Status;
+    private String status;
     @Column(columnDefinition = "Timestamp not null")
     private Date dateReceived;
 
     @ManyToMany
     @JsonIgnore
+//    @JoinColumn(name = "myOrderList", referencedColumnName = "id")
     private List<Product> productList;
 
     @ManyToOne
+//    @JoinColumn(name = "customer_order", referencedColumnName = "id")
     @JsonIgnore
     private Customer customer_order;
 

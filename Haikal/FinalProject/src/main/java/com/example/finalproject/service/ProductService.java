@@ -18,17 +18,15 @@ public class ProductService
     private final ProductRepository productRepository;
     private final ProductDetailsRepository productDetailsRepository;
 
-    public List<Product> getProduct()
-    {
+    public List<Product> getAllProduct() {
         return productRepository.findAll();
     }
-
 
     public void addProduct(Product product) {
         productRepository.save(product);
     }
     public void addProductDetails(ProductDetailsDTO productDTO) {
-        Product product = productRepository.findProductById(productDTO.getId());
+        Product product = productRepository.findProductById(productDTO.getProduct_id());
         if(product == null) {
             throw new ApiException("product not found!");
         }
@@ -42,23 +40,33 @@ public class ProductService
         if(productDetails == null) {
             throw new ApiException("product not found!");
         }
-        productDetails.setProduct();
+//        updateProductDTO.setProduct_id(productDetails.getId());
+        productDetails.setQuantity(updateProductDTO.getQuantity());
+        productDetailsRepository.save(productDetails);
     }
 
-    public boolean updateProduct(Integer id,Product product)
-    {
+    public void deleteProductDetails(Integer id) {
+        ProductDetails productDetails = productDetailsRepository.findProductDetailsById(id);
+        if(productDetails == null) {
+            throw new ApiException("product details not found!");
+        }
+        productDetailsRepository.delete(productDetails);
+    }
+
+    public boolean updateProduct(Integer id, Product product) {
         Product product1 = productRepository.findProductById(id);
-        if(product1==null)
-            return false;
+        if(product1==null) {
+            throw new ApiException("product not found!");
+        }
         product.setId(id);
         productRepository.save(product);
         return true;
     }
-    public boolean deleteProduct(Integer id)
-    {
+    public boolean deleteProduct(Integer id) {
         Product product = productRepository.findProductById(id);
-        if(product==null)
-            return false;
+        if(product==null) {
+            throw new ApiException("product not found!");
+        }
         productRepository.delete(product);
         return true;
     }

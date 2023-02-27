@@ -8,6 +8,7 @@ import lombok.Data;
 public class ProductDetailsDTO {
 
     private Integer product_id;
-    private Integer id;
     private Integer quantity;
+
+
 }

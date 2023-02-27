@@ -23,41 +23,41 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @NotEmpty(message = "username is required")
-//    private String username;
-//
-//    @NotEmpty(message = "password is required")
-//    private String password;
-//
-//    @NotEmpty(message = "email is required")
-//    @Email(message = "Please enter a valid email")
-//    private String email;
-//
-//    @NotEmpty(message = "phone number is required")
-//    private String phoneNumber;
-//
-//    @Column(name = "dateOfBirth")
+    @NotEmpty(message = "username is required")
+    private String username;
+
+    @NotEmpty(message = "password is required")
+    private String password;
+
+    @NotEmpty(message = "email is required")
+    @Email(message = "Please enter a valid email")
+    private String email;
+
+    @NotEmpty(message = "phone number is required")
+    private String phoneNumber;
+
+    @Column(name = "dateOfBirth")
 //    @DateTimeFormat(pattern = "yyyy-mm-dd")
-//    private Date dateOfBirth;
-//    @NotEmpty(message = "gender is required")
-//    @Pattern(regexp = "male|female")
-//    @Column(columnDefinition = "varchar(10) not null check (gender= 'male' or gender= 'female')")
-//    private String gender;
+    private String dateOfBirth;
+    @NotEmpty(message = "gender is required")
+    @Pattern(regexp = "male|female")
+    @Column(columnDefinition = "varchar(10) not null check (gender= 'male' or gender= 'female')")
+    private String gender;
 
 
     //  Relationships
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer_order")
-    private List<Order> orderList;
+    private List<MyOrder> orderList;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "store_id", referencedColumnName = "id")
+//    @JoinColumn(name = "store_id", referencedColumnName = "id")
     private Store store;
 
-//    @ManyToOne
-//    @JsonIgnore
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private User user;
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private MyUser user;
 
 
 

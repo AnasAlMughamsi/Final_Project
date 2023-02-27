@@ -1,5 +1,6 @@
 package com.example.finalproject.controller;
 
+import com.example.finalproject.dto.ProductDetailsDTO;
 import com.example.finalproject.model.Product;
 import com.example.finalproject.service.ProductService;
 import jakarta.validation.Valid;
@@ -16,29 +17,34 @@ import java.util.List;
 public class ProductController
 {
     private final ProductService productService;
-    @GetMapping("/get")
-    public ResponseEntity getProduct()
-    {
-        List<Product>productList = productService.getProduct();
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+
+    @GetMapping("/all")
+    public ResponseEntity getProduct() {
+        List<Product>productList = productService.getAllProduct();
+        return ResponseEntity.status(200).body(productList);
     }
     @PostMapping("/add")
-    public ResponseEntity addProduct(@Valid @RequestBody Product product)
-    {
+    public ResponseEntity addProduct(@Valid @RequestBody Product product) {
         productService.addProduct(product);
-        return ResponseEntity.status(HttpStatus.OK).body("Product added !");
+        return ResponseEntity.status(200).body("Product added !");
     }
+//    @PostMapping("/add-details")
+//    public ResponseEntity<String> addProductDetails(@Valid @RequestBody ProductDetailsDTO productDTO) {
+//        productService.addProductDetails(productDTO);
+//        return ResponseEntity.status(200).body("Product details added!!!");
+//    }
+
+
     @PutMapping("/update/{id}")
-    public ResponseEntity updateProduct(@PathVariable Integer id,@Valid @RequestBody Product product)
-    {
+    public ResponseEntity updateProduct(@PathVariable Integer id,@Valid @RequestBody Product product) {
         boolean isAvailable = productService.updateProduct(id, product);
         if(isAvailable)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong Id !");
         return ResponseEntity.status(HttpStatus.OK).body("Product updated !");
     }
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteProduct(@PathVariable Integer id)
-    {
+    public ResponseEntity deleteProduct(@PathVariable Integer id) {
         boolean isAvailable = productService.deleteProduct(id);
         if(isAvailable)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong Id !");

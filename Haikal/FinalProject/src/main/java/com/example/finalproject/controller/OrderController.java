@@ -1,6 +1,6 @@
 package com.example.finalproject.controller;
 
-import com.example.finalproject.model.Order;
+import com.example.finalproject.model.MyOrder;
 import com.example.finalproject.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,17 +19,17 @@ public class OrderController
     @GetMapping("/get")
     public ResponseEntity getOrder()
     {
-        List<Order> orderList = orderService.getOrder();
+        List<MyOrder> orderList = orderService.getOrder();
         return ResponseEntity.status(HttpStatus.OK).body(orderList);
     }
     @PostMapping("/add")
-    public ResponseEntity addOrder(@Valid @RequestBody Order order)
+    public ResponseEntity addOrder(@Valid @RequestBody MyOrder order)
     {
         orderService.addOrder(order);
         return ResponseEntity.status(HttpStatus.OK).body("Order added !");
     }
     @PutMapping("/update/{id}")
-    public ResponseEntity updateOrder(@PathVariable Integer id,@Valid @RequestBody Order order)
+    public ResponseEntity updateOrder(@PathVariable Integer id,@Valid @RequestBody MyOrder order)
     {
         boolean isAvailable = orderService.updateOrder(id, order);
         if(isAvailable)

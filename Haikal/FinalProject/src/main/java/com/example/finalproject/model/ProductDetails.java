@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
+@Table(name = "product_details")
 public class ProductDetails
 {
     @Id
@@ -19,6 +19,7 @@ public class ProductDetails
     @NotNull(message = "Quantity can not be null")
     private Integer quantity;
 
+//    Relationships
 
     @OneToOne
     @MapsId

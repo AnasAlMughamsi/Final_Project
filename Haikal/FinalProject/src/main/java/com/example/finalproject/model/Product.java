@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Data
 @AllArgsConstructor @NoArgsConstructor
+@Table(name = "product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,21 +41,23 @@ public class Product {
     @NotEmpty(message = "Product class should be not empty!")
     private String productClass;
     @NotEmpty(message = "Product status should be not empty!")
-//    @Pattern(regexp = "(?:^|\\\\W)Good(?:$|\\\\W)|(?:^|\\\\W)Medium(?:$|\\\\W)|(?:^|\\\\W)Bad(?:$|\\\\W)")
     @Pattern(regexp = "(Good|Medium|Bad)")
     private String productStatus;
     @NotEmpty(message = "Product image URL should be not empty!")
     private String productImageUrl;
 
-    @ManyToMany(mappedBy = "productList")
-    private List<Order> orderList;
+    // Relationships
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "productList")
+//    @JoinColumn(name = "my-orders", referencedColumnName = "id")
+    private List<MyOrder> myOrderList;
 
     @ManyToOne
-    @JoinColumn(name = "product_store", referencedColumnName = "id")
+//    @JoinColumn(name = "store", referencedColumnName = "id")
     @JsonIgnore
-    private Store store;
+    private Store store_owner;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "product")
+//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private ProductDetails productDetails;
 }

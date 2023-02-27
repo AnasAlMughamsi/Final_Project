@@ -1,8 +1,8 @@
 package com.example.finalproject.service;
 
 import com.example.finalproject.api.ApiException;
+import com.example.finalproject.dto.CustomerDTO;
 import com.example.finalproject.model.Customer;
-import com.example.finalproject.model.User;
 import com.example.finalproject.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,8 +29,7 @@ public class CustomerService {
 
     public void addCustomer(Customer customer) {
         // TODO: I need to check if I need to add User before adding a customer or not
-        User user = new User(); // creating new user for customer
-        user.setRole("customer");
+
         customerRepository.save(customer);
     }
 
