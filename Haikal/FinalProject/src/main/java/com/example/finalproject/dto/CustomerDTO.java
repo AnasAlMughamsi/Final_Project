@@ -13,7 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class CustomerDTO {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

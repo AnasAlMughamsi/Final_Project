@@ -4,7 +4,6 @@ import com.example.finalproject.service.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,7 +19,7 @@ public class SecurityConfig {
     private final MyUserDetailsService myUserDetailsService;
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(myUserDetailsService);
         authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
@@ -30,11 +29,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
-                .authenticationProvider(authenticationProvider())
+                .authenticationProvider(daoAuthenticationProvider())
                 .authorizeHttpRequests()
-                .requestMatchers( "/api/v1/register/**", "/api/v1/register").permitAll()
+                .requestMatchers("/api/v1/user/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutUrl("/api/v1/user/logout")
@@ -44,7 +44,6 @@ public class SecurityConfig {
                 .httpBasic();
         return http.build();
     }
-
 }
 //.requestMatchers(HttpMethod.POST, "/api/v1/store/**").hasAuthority("store")
 //                .requestMatchers("/api/v1/admin/**", "/api/v1/admin/all-users").hasAuthority("ADMIN")

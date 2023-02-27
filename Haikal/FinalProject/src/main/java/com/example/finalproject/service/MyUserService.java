@@ -1,6 +1,7 @@
 package com.example.finalproject.service;
 
 import com.example.finalproject.api.ApiException;
+import com.example.finalproject.dto.StoreDTO;
 import com.example.finalproject.model.Customer;
 import com.example.finalproject.model.Store;
 import com.example.finalproject.model.MyUser;
@@ -8,6 +9,7 @@ import com.example.finalproject.repository.CustomerRepository;
 import com.example.finalproject.repository.StoreRepository;
 import com.example.finalproject.repository.MyUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,21 +69,21 @@ public class MyUserService {
         userRepository.delete(user);
     }
 
-    // Assign customer as user
-    // Assign store as user
-
-//    public void assignCustomerAsMyUser(Integer customer_id, Integer user_id) {
-//        MyUser user = userRepository.findMyUserById(user_id);
-//        Customer customer = customerRepository.findCustomerById(customer_id);
-//        if(user == null || customer == null) {
-//            throw new ApiException("Wrong user or customer id");
+    public void registerCustomer(MyUser user) {
+//        if (user.getPassword().isBlank() || user.getPassword().isEmpty()) {
+//            throw new ApiException("Password should be not empty and more than 3");
 //        }
-//        customer.setMyUser(user);
-//        customerRepository.save(customer);
-//
-//        user.getCustomerList().add(customer);
-//        userRepository.save(user);
-//    }
+        user.setRole("customer");
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+    public void registerStore(StoreDTO storeDTO) {
+
+
+    }
+
+
 //    public void assignStoreAsMyUser(Integer store_id, Integer user_id) {
 //        MyUser user = userRepository.findMyUserById(user_id);
 //        Store store = storeRepository.findStoreById(store_id);

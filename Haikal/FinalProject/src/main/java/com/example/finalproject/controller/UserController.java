@@ -49,23 +49,22 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse> customerLogin() {
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Customer logged in successfully", 200));
+    public ResponseEntity customerLogin() {
+        return ResponseEntity.status(HttpStatus.OK).body("Customer logged in successfully");
     }
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse> customerLogout() {
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Customer logout in successfully", 200));
+    public ResponseEntity customerLogout() {
+        return ResponseEntity.status(HttpStatus.OK).body("Customer logout in successfully");
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity register(@RequestBody MyUser myUser) {
+        myUserService.registerCustomer(myUser);
+        return ResponseEntity.status(HttpStatus.OK).body("good");
     }
 
 
-//    @PostMapping("/{user_id}/user/{customer_id}")
-//    public ResponseEntity<String> assignCustomerAsUser(@PathVariable Integer user_id, @PathVariable Integer customer_id) {
-//        userService.assignCustomerAsUser(customer_id, user_id);
-//        return ResponseEntity.status(200).body("Assign customer as user!");
-//
-//    }
-//
-//
+
 //    @PostMapping("/{user_id}/user/{store_id}")
 //    public ResponseEntity<String> assignStoreAsUser(@PathVariable Integer user_id, @PathVariable Integer store_id) {
 //        userService.assignCustomerAsUser(store_id, user_id);

@@ -27,9 +27,9 @@ public class CustomerController {
         return ResponseEntity.status(200).body(customers);
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity getCustomerById(@PathVariable Integer id) {
-        return ResponseEntity.status(200).body(customerService.getCustomerById(id));
+    @GetMapping("/get")
+    public ResponseEntity getCustomerById(@AuthenticationPrincipal MyUser user) {
+        return ResponseEntity.status(200).body(customerService.getCustomerById(user.getId()));
     }
 
     @PostMapping("/add")
@@ -52,11 +52,10 @@ public class CustomerController {
 
     // TODO: assign order to customer
     @PostMapping("/addCustomer")
-    public ResponseEntity<ApiResponse> assignCustomerToUser(@RequestBody @Valid CustomerDTO customerDTO, @AuthenticationPrincipal MyUser myUser) {
+    public ResponseEntity assignCustomerToUser(@RequestBody @Valid CustomerDTO customerDTO, @AuthenticationPrincipal MyUser myUser) {
         customerService.assignCustomerToUser(customerDTO, myUser.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("assign customer as user registered!", 201));
+        return ResponseEntity.status(HttpStatus.CREATED).body("assign customer as user registered!");
     }
-
 
 
 }

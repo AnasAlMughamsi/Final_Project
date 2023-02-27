@@ -62,19 +62,32 @@ public class CustomerService {
 
 
 
+//    public void assignCustomerToUser(CustomerDTO customerDTO, Integer auth_id) {
+//        MyUser myUser = myUserRepository.findMyUserById(auth_id);
+//        if(myUser == null) {
+//            throw new ApiException("user not found!");
+//        } else if(myUser.getCustomer() == null) {
+//            throw new ApiException("Customer not found!");
+//        }
+//        myUserRepository.save(myUser);
+////        Customer customer = new Customer(null, customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getEmail(), customerDTO.getPhoneNumber(),
+////                customerDTO.getDateOfBirth(), customerDTO.getGender(), myUser,null, null);
+//        Customer customer = new Customer(null, customerDTO.getFirstName(), customerDTO.getLastName(), myUser, null, null);
+//        customerRepository.save(customer);
+//    }
     public void assignCustomerToUser(CustomerDTO customerDTO, Integer auth_id) {
         MyUser myUser = myUserRepository.findMyUserById(auth_id);
-        if(myUser == null) {
-            throw new ApiException("user not found!");
-        } else if(myUser.getCustomer() == null) {
-            throw new ApiException("Customer not found!");
+        if (myUser == null) {
+            throw new ApiException("user ID not found");
+        } else if (myUser.getCustomer() != null) {
+            throw new ApiException("Customer Already Exist!!!!");
         }
         myUserRepository.save(myUser);
         Customer customer = new Customer(null, customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getEmail(), customerDTO.getPhoneNumber(),
-                customerDTO.getDateOfBirth(), customerDTO.getGender(), myUser,null, null);
+            customerDTO.getDateOfBirth(), customerDTO.getGender(), myUser,null, null);
+//        Customer customer = new Customer(null, customerDTO.getFirstName(), customerDTO.getLastName(), myUser, null, null);
         customerRepository.save(customer);
     }
-
 
 
 }

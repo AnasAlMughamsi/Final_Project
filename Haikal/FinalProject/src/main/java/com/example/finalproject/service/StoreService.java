@@ -62,7 +62,7 @@ public class StoreService {
         if(store == null || customer == null) {
             throw new ApiException("customer or store not found");
         }
-        customer.setStore(store); // one to many - relation (one store to many users)
+//        customer.setStore(store); // one to many - relation (one store to many users)
         store.getCustomers().add(customer);
         storeRepository.save(store);
     }

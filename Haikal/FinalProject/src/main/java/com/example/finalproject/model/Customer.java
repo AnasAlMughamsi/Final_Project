@@ -15,7 +15,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "customer")
+//@Table(name = "customer")
 @AllArgsConstructor @NoArgsConstructor
 public class Customer {
 
@@ -28,22 +28,22 @@ public class Customer {
 //
 //    @NotEmpty(message = "password is required")
 //    private String password;
-    @NotEmpty(message = "first name is required")
+//    @NotEmpty(message = "first name is required")
     private String firstName;
-    @NotEmpty(message = "last name is required")
+//    @NotEmpty(message = "last name is required")
     private String lastName;
 
-    @NotEmpty(message = "email is required")
-    @Email(message = "Please enter a valid email")
+//    @NotEmpty(message = "email is required")
+//    @Email(message = "Please enter a valid email")
     private String email;
 
-    @NotEmpty(message = "phone number is required")
+//    @NotEmpty(message = "phone number is required")
     private String phoneNumber;
 
-    @Column(name = "dateOfBirth")
+//    @Column(name = "dateOfBirth")
 //    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private String dateOfBirth;
-    @NotEmpty(message = "gender is required")
+//    @NotEmpty(message = "gender is required")
     @Pattern(regexp = "male|female")
     @Column(columnDefinition = "varchar(10) not null check (gender= 'male' or gender= 'female')")
     private String gender;
@@ -51,9 +51,9 @@ public class Customer {
 
     //  Relationships
     @OneToOne
-    @MapsId
     @JsonIgnore
-    private MyUser customer_user;
+    private MyUser myUser;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer_order")
     private List<MyOrder> orderList;
 

@@ -1,9 +1,11 @@
 package com.example.finalproject.controller;
 
+import com.example.finalproject.api.ApiResponse;
 import com.example.finalproject.model.Store;
 import com.example.finalproject.service.StoreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +44,11 @@ public class StoreController {
     public ResponseEntity<String> deleteStore(@PathVariable Integer id) {
         storeService.deleteStore(id );
         return ResponseEntity.status(200).body("Store deleted!");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse> storeLogin() {
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Store logged in successfully!", 201));
     }
 
     // TODO: assign customer to store

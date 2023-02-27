@@ -36,7 +36,8 @@ public class MyUser implements UserDetails {
     private String role;
 
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "customer_user")
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "myUser")
     @PrimaryKeyJoinColumn
     private Customer customer;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "store_user")
