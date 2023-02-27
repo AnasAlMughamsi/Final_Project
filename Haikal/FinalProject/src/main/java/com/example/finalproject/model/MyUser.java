@@ -18,28 +18,28 @@ import java.util.*;
 
 @Data
 @Entity
-@Table(name = "user")
 @AllArgsConstructor @NoArgsConstructor
+//@Table(name = "users")
 public class MyUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotEmpty(message = "username is required")
+//    @NotEmpty(message = "username is required")
     private String username;
 
-    @NotEmpty(message = "password is required")
+//    @NotEmpty(message = "password is required")
     private String password;
 
-    @Pattern(regexp = "(customer|store|admin)" , message = "role must be customer or admin")
-    @Column(columnDefinition = "varchar(10) not null check (role = 'customer' role = 'store' or role = 'admin')")
+//    @Pattern(regexp = "(customer|store|admin)" , message = "role must be customer or admin")
+//    @Column(columnDefinition = "varchar(10) not null check (role = 'customer' role = 'store' or role = 'admin')")
     private String role;
 
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "customer_user")
     @PrimaryKeyJoinColumn
     private Customer customer;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "store_user")
     @PrimaryKeyJoinColumn
     private Store store;
 

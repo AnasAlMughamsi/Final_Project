@@ -1,10 +1,15 @@
 package com.example.finalproject.controller;
 
+import com.example.finalproject.api.ApiResponse;
+import com.example.finalproject.dto.CustomerDTO;
 import com.example.finalproject.model.Customer;
+import com.example.finalproject.model.MyUser;
 import com.example.finalproject.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,7 +51,11 @@ public class CustomerController {
     }
 
     // TODO: assign order to customer
-
+    @PostMapping("/addCustomer")
+    public ResponseEntity<ApiResponse> assignCustomerToUser(@RequestBody @Valid CustomerDTO customerDTO, @AuthenticationPrincipal MyUser myUser) {
+        customerService.assignCustomerToUser(customerDTO, myUser.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("assign customer as user registered!", 201));
+    }
 
 
 

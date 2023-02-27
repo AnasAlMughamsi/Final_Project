@@ -51,7 +51,7 @@ public class Store {
     @OneToOne
     @MapsId
     @JsonIgnore
-    private MyUser user;
+    private MyUser store_user;
 
 
 }

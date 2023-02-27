@@ -1,10 +1,12 @@
 package com.example.finalproject.controller;
 
 
+import com.example.finalproject.api.ApiResponse;
 import com.example.finalproject.model.MyUser;
 import com.example.finalproject.service.MyUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +47,16 @@ public class UserController {
 
         return ResponseEntity.status(200).body("User deleted!");
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse> customerLogin() {
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Customer logged in successfully", 200));
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<ApiResponse> customerLogout() {
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Customer logout in successfully", 200));
+    }
+
 
 //    @PostMapping("/{user_id}/user/{customer_id}")
 //    public ResponseEntity<String> assignCustomerAsUser(@PathVariable Integer user_id, @PathVariable Integer customer_id) {

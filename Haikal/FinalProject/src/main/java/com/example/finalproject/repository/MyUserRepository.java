@@ -10,4 +10,5 @@ public interface MyUserRepository extends JpaRepository<MyUser, Integer> {
     MyUser findMyUserById (Integer id);
     MyUser findMyUserByUsername(String username);
 
+
 }

@@ -23,11 +23,15 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty(message = "username is required")
-    private String username;
-
-    @NotEmpty(message = "password is required")
-    private String password;
+//    @NotEmpty(message = "username is required")
+//    private String username;
+//
+//    @NotEmpty(message = "password is required")
+//    private String password;
+    @NotEmpty(message = "first name is required")
+    private String firstName;
+    @NotEmpty(message = "last name is required")
+    private String lastName;
 
     @NotEmpty(message = "email is required")
     @Email(message = "Please enter a valid email")
@@ -46,6 +50,10 @@ public class Customer {
 
 
     //  Relationships
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private MyUser customer_user;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer_order")
     private List<MyOrder> orderList;
 
@@ -54,10 +62,7 @@ public class Customer {
 //    @JoinColumn(name = "store_id", referencedColumnName = "id")
     private Store store;
 
-    @OneToOne
-    @MapsId
-    @JsonIgnore
-    private MyUser user;
+
 
 
 

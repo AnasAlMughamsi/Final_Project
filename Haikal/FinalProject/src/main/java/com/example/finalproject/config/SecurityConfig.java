@@ -34,9 +34,7 @@ public class SecurityConfig {
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .authorizeHttpRequests()
-                .requestMatchers(HttpMethod.POST,  "/api/v1/register/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/store/**").hasAuthority("store")
-                .requestMatchers("/api/v1/admin/**", "/api/v1/admin/all-users").hasAuthority("ADMIN")
+                .requestMatchers( "/api/v1/register/**", "/api/v1/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutUrl("/api/v1/user/logout")
@@ -48,3 +46,8 @@ public class SecurityConfig {
     }
 
 }
+//.requestMatchers(HttpMethod.POST, "/api/v1/store/**").hasAuthority("store")
+//                .requestMatchers("/api/v1/admin/**", "/api/v1/admin/all-users").hasAuthority("ADMIN")
+
+//.requestMatchers( "/api/v1/customer", "/api/v1/customer/**").hasAuthority("customer")
+//                .requestMatchers("/api/v1/admin/**").hasAuthority("admin")

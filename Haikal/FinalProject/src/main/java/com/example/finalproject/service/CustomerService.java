@@ -3,7 +3,9 @@ package com.example.finalproject.service;
 import com.example.finalproject.api.ApiException;
 import com.example.finalproject.dto.CustomerDTO;
 import com.example.finalproject.model.Customer;
+import com.example.finalproject.model.MyUser;
 import com.example.finalproject.repository.CustomerRepository;
+import com.example.finalproject.repository.MyUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.List;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final MyUserRepository myUserRepository;
 
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
@@ -55,4 +58,23 @@ public class CustomerService {
     public void assignOrderToCustomer(Integer customer_id, Integer order_id) {
 
     }
+
+
+
+
+    public void assignCustomerToUser(CustomerDTO customerDTO, Integer auth_id) {
+        MyUser myUser = myUserRepository.findMyUserById(auth_id);
+        if(myUser == null) {
+            throw new ApiException("user not found!");
+        } else if(myUser.getCustomer() == null) {
+            throw new ApiException("Customer not found!");
+        }
+        myUserRepository.save(myUser);
+        Customer customer = new Customer(null, customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getEmail(), customerDTO.getPhoneNumber(),
+                customerDTO.getDateOfBirth(), customerDTO.getGender(), myUser,null, null);
+        customerRepository.save(customer);
+    }
+
+
+
 }
