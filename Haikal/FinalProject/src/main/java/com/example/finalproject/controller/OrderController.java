@@ -1,11 +1,13 @@
 package com.example.finalproject.controller;
 
 import com.example.finalproject.model.MyOrder;
+import com.example.finalproject.model.MyUser;
 import com.example.finalproject.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,5 +45,13 @@ public class OrderController
         if(isAvailable)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong Id !");
         return ResponseEntity.status(HttpStatus.OK).body("Order deleted !");
+    }
+
+
+    // TODO: assign order to customer
+    @PostMapping("/addOrder/{order_id}")
+    public ResponseEntity assignOrderToCustomer(MyOrder myOrder, @AuthenticationPrincipal MyUser myUser, @PathVariable Integer order_id) {
+        orderService.assignOrderToCustomer(myOrder, myUser.getId(), order_id);
+        return ResponseEntity.status(HttpStatus.CREATED).body("assign customer as user registered!");
     }
 }

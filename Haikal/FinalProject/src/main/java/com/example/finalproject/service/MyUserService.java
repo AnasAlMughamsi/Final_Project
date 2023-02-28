@@ -1,6 +1,7 @@
 package com.example.finalproject.service;
 
 import com.example.finalproject.api.ApiException;
+import com.example.finalproject.dto.CustomerDTO;
 import com.example.finalproject.dto.StoreDTO;
 import com.example.finalproject.model.Customer;
 import com.example.finalproject.model.Store;
@@ -28,29 +29,18 @@ public class MyUserService {
     public List<MyUser> getAllMyUsers() {
         return userRepository.findAll();
     }
+    public List<Customer> getAllCustomers() {
+        return customerRepository.findAll();
+    }
 
-    public MyUser getMyUserById(Integer id) {
-        MyUser user = userRepository.findMyUserById(id);
+    public MyUser getMyUserById(Integer auth_id) {
+        MyUser user = userRepository.findMyUserById(auth_id);
         if(user == null) {
             throw new ApiException("user not found");
         }
         return user;
     }
 
-    public void addMyUser(MyUser user) {
-        // TODO: I need to check if I need to add MyUser before adding a customer or not
-        Customer newCustomer = new Customer();
-        Store newStore = new Store();
-
-        if(user.getRole().equals("customer")) {
-            user.setRole("customer");
-            customerRepository.save(newCustomer);
-        } else if (user.getRole().equals("store")) {
-            user.setRole("store");
-            storeRepository.save(newStore);
-        }
-        userRepository.save(user);
-    }
 
     public void updateMyUser(MyUser updateMyUser, Integer id) {
         MyUser user = userRepository.findMyUserById(id);
@@ -69,32 +59,51 @@ public class MyUserService {
         userRepository.delete(user);
     }
 
-    public void registerCustomer(MyUser user) {
-//        if (user.getPassword().isBlank() || user.getPassword().isEmpty()) {
-//            throw new ApiException("Password should be not empty and more than 3");
-//        }
-        user.setRole("customer");
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        userRepository.save(user);
+
+
+    public void customerRegister(CustomerDTO customerDTO) {
+
+        MyUser myUser = new MyUser();
+        myUser.setRole("customer");
+        myUser.setUsername(customerDTO.getUsername());
+        String hashedPassword = new BCryptPasswordEncoder().encode(customerDTO.getPassword());
+        myUser.setPassword(hashedPassword);
+
+        MyUser savedUser = userRepository.save(myUser);
+
+        Customer customer = new Customer();
+        customer.setFirstName(customerDTO.getFirstName());
+        customer.setLastName(customerDTO.getLastName());
+        customer.setEmail(customerDTO.getEmail());
+        customer.setPhoneNumber(customer.getPhoneNumber());
+        customer.setDateOfBirth(customerDTO.getDateOfBirth());
+        customer.setGender(customerDTO.getGender());
+        customer.setMyUser(savedUser);
+        customerRepository.save(customer);
     }
 
     public void registerStore(StoreDTO storeDTO) {
+        MyUser myUser = new MyUser();
+        myUser.setRole("store");
+        myUser.setUsername(storeDTO.getUsername());
+        String hashedPassword = new BCryptPasswordEncoder().encode(storeDTO.getPassword());
+        myUser.setPassword(hashedPassword);
 
+        MyUser saveUser = userRepository.save(myUser);
 
+        Store store = new Store();
+        store.setStoreName(storeDTO.getStoreName());
+        store.setStoreNameOwner(storeDTO.getStoreNameOwner());
+        store.setCity(storeDTO.getCity());
+        store.setDistrict(storeDTO.getDistrict());
+        store.setStreet(storeDTO.getStreet());
+        store.setPhoneNumber(storeDTO.getPhoneNumber());
+        store.setEmail(storeDTO.getEmail());
+        store.setCompanyRegisterUrl(storeDTO.getCompanyRegisterUrl());
+        store.setActive(storeDTO.isActive());
+        store.setCommercialLicense(storeDTO.getCommercialLicense());
+        store.setStore_user(saveUser);
+        storeRepository.save(store);
     }
 
-
-//    public void assignStoreAsMyUser(Integer store_id, Integer user_id) {
-//        MyUser user = userRepository.findMyUserById(user_id);
-//        Store store = storeRepository.findStoreById(store_id);
-//        if(user == null || store == null) {
-//            throw new ApiException("Wrong user or store id");
-//        }
-//
-//        store.setMyUser(user);
-//        storeRepository.save(store);
-//
-//        user.getStoreList().add(store);
-//        userRepository.save(user);
-//    }
 }

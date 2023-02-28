@@ -21,6 +21,9 @@ public class Store {
     @NotEmpty(message = "store name is required")
     private String storeName;
 
+    @NotEmpty(message = "store name is required")
+    private String storeNameOwner;
+
     @NotEmpty(message = "city is required")
     private String city;
     @NotEmpty(message = "district is required")
@@ -42,7 +45,7 @@ public class Store {
 
     //  Relationships
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "store")
+    @ManyToMany(mappedBy = "stores")
     private List<Customer> customers;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "store_owner")

@@ -1,12 +1,18 @@
 package com.example.finalproject.controller;
 
 import com.example.finalproject.api.ApiResponse;
+import com.example.finalproject.dto.CustomerDTO;
+import com.example.finalproject.dto.StoreDTO;
+import com.example.finalproject.model.Customer;
+import com.example.finalproject.model.MyUser;
 import com.example.finalproject.model.Store;
+import com.example.finalproject.service.CustomerService;
 import com.example.finalproject.service.StoreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +23,7 @@ import java.util.List;
 public class StoreController {
 
     private final StoreService storeService;
+    private final CustomerService customerService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Store>> getAllStore() {
@@ -46,16 +53,15 @@ public class StoreController {
         return ResponseEntity.status(200).body("Store deleted!");
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<ApiResponse> storeLogin() {
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Store logged in successfully!", 201));
-    }
 
-    // TODO: assign customer to store
+//    @PostMapping("/addStore")
+//    public ResponseEntity assignStoreToUser(@RequestBody @Valid StoreDTO storeDTO, @AuthenticationPrincipal MyUser myUser) {
+//        storeService.assignStoreToUser(storeDTO, myUser.getId());
+//        return ResponseEntity.status(HttpStatus.CREATED).body("assign store as user!");
+//    }
 
-    @PostMapping("/{store_id}/store/{customer_id}")
-    public ResponseEntity<String> assignCustomerAsUser(@PathVariable Integer store_id, @PathVariable Integer customer_id) {
-        storeService.assignCustomerToStore(store_id, customer_id);
-        return ResponseEntity.status(200).body("Assign customer to store!");
-    }
+
+
+    // ==================== assigns ====================
+
 }

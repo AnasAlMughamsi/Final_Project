@@ -31,18 +31,17 @@ public class MyUser implements UserDetails {
 //    @NotEmpty(message = "password is required")
     private String password;
 
-//    @Pattern(regexp = "(customer|store|admin)" , message = "role must be customer or admin")
-//    @Column(columnDefinition = "varchar(10) not null check (role = 'customer' role = 'store' or role = 'admin')")
+    @Pattern(regexp = "(customer|store|admin)" , message = "role must be customer or admin")
+    @Column(columnDefinition = "varchar(10) not null check (role = 'customer' or role = 'store' or role = 'admin')")
     private String role;
-
 
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "myUser")
     @PrimaryKeyJoinColumn
     private Customer customer;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "store_user")
-    @PrimaryKeyJoinColumn
-    private Store store;
+//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "store_user")
+//    @PrimaryKeyJoinColumn
+//    private Store store;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
