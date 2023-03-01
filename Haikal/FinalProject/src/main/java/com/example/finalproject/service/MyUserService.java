@@ -64,22 +64,24 @@ public class MyUserService {
     public void customerRegister(CustomerDTO customerDTO) {
 
         MyUser myUser = new MyUser();
-        myUser.setRole("customer");
         myUser.setUsername(customerDTO.getUsername());
         String hashedPassword = new BCryptPasswordEncoder().encode(customerDTO.getPassword());
         myUser.setPassword(hashedPassword);
+        myUser.setRole("customer");
 
         MyUser savedUser = userRepository.save(myUser);
 
-        Customer customer = new Customer();
-        customer.setFirstName(customerDTO.getFirstName());
-        customer.setLastName(customerDTO.getLastName());
-        customer.setEmail(customerDTO.getEmail());
-        customer.setPhoneNumber(customer.getPhoneNumber());
-        customer.setDateOfBirth(customerDTO.getDateOfBirth());
-        customer.setGender(customerDTO.getGender());
-        customer.setMyUser(savedUser);
-        customerRepository.save(customer);
+        Customer newCustomer = new Customer();
+        newCustomer.setFirstName(customerDTO.getFirstName());
+        newCustomer.setLastName(customerDTO.getLastName());
+        newCustomer.setEmail(customerDTO.getEmail());
+        newCustomer.setPhoneNumber(customerDTO.getPhoneNumber());
+        newCustomer.setDateOfBirth(customerDTO.getDateOfBirth());
+        newCustomer.setGender(customerDTO.getGender());
+        newCustomer.setUser(savedUser);
+//        customer.setStore_list(null);
+        customerRepository.save(newCustomer);
+        userRepository.save(myUser);
     }
 
     public void registerStore(StoreDTO storeDTO) {
@@ -102,7 +104,7 @@ public class MyUserService {
         store.setCompanyRegisterUrl(storeDTO.getCompanyRegisterUrl());
         store.setActive(storeDTO.isActive());
         store.setCommercialLicense(storeDTO.getCommercialLicense());
-        store.setStore_user(saveUser);
+        store.setUser(saveUser);
         storeRepository.save(store);
     }
 

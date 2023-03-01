@@ -7,8 +7,8 @@ import com.example.finalproject.model.MyOrder;
 import com.example.finalproject.model.MyUser;
 import com.example.finalproject.model.Store;
 import com.example.finalproject.repository.CustomerRepository;
+import com.example.finalproject.repository.MyOrderRepository;
 import com.example.finalproject.repository.MyUserRepository;
-import com.example.finalproject.repository.OrderRepository;
 import com.example.finalproject.repository.StoreRepository;
 import jakarta.persistence.criteria.Order;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final MyUserRepository myUserRepository;
     private final StoreRepository storeRepository;
-    private final OrderRepository orderRepository;
+    private final MyOrderRepository myOrderRepository;
 
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
@@ -37,17 +37,20 @@ public class CustomerService {
         return customer;
     }
 
-//    public void addCustomer(Customer customer) {
-//        // TODO: I need to check if I need to add User before adding a customer or not
-//        customerRepository.save(customer);
-//    }
+    public void addCustomer(Customer customer) {
+        customerRepository.save(customer);
+    }
 
-    public void updateCustomer(Customer updateCustomer, Integer id) {
-        Customer customer = customerRepository.findCustomerById(id);
+    public void updateCustomer(Customer updateCustomer, Integer user_id) {
+        MyUser myUser = myUserRepository.findMyUserById(user_id);
+        Customer customer = customerRepository.findCustomerById(myUser.getCustomer().getId());
         if(customer == null) {
             throw new ApiException("Customer not found, wrong id");
+        } else if (customer.getUser().getId() != user_id) {
+            throw new ApiException("Sorry, you have no right access");
         }
-        updateCustomer.setId(id);
+        updateCustomer.setId(user_id);
+        updateCustomer.setUser(myUser);
         customerRepository.save(updateCustomer);
     }
 
@@ -59,36 +62,24 @@ public class CustomerService {
         customerRepository.delete(customer);
     }
 
+    public void assignCustomerToStore(Integer auth_id, Integer store_id) {
+        MyUser myUser = myUserRepository.findMyUserById(auth_id);
+        Customer customer = customerRepository.findCustomerById(myUser.getCustomer().getId());
+        Store store = storeRepository.findStoreById(store_id);
+        if(store == null) {
+            throw new ApiException("store not found");
+        }
+        if(customer == null) {
+            throw new ApiException("customer not found");
+        }
+        if(!customer.getUser().getRole().equals("customer")) {
+            throw new ApiException("Unauthorized");
+        }
 
-//    public void assignCustomerToUser(CustomerDTO customerDTO, Integer auth_id) {
-//        MyUser myUser = myUserRepository.findMyUserById(auth_id);
-//        if (myUser == null) {
-//            throw new ApiException("user ID not found");
-//        } else if (myUser.getCustomer() != null) {
-//            throw new ApiException("Customer Already Exist!!!!");
-//        }
-//        myUserRepository.save(myUser);
-//        Customer customer = new Customer(null, customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getEmail(), customerDTO.getPhoneNumber(),
-//            customerDTO.getDateOfBirth(), customerDTO.getGender(), myUser,null, null);
-//        customerRepository.save(customer);
-//    }
-
-    // TODO: assign customer to store
-//    public void assignCustomerToStore(Customer newCustomer, Integer auth_id) {
-//        MyUser myUser = myUserRepository.findMyUserById(auth_id);
-//        Store store = storeRepository.findStoreById(myUser.getStore().getId());
-//        if(store == null) {
-//            throw new ApiException("store not found");
-//        }
-////        for (int i = 0; i < store.getCustomers().size(); i++) {
-////            if(store.getCustomers().get(i).getMyUser().getId() != auth_id) {
-////                throw new ApiException("You have no authority");
-////            }
-////        }
-//        store.getCustomers().add(newCustomer);
-//        newCustomer.getStores().add(store);
-//        customerRepository.save(newCustomer);
-//        storeRepository.save(store);
-//    }
+        customer.getStoreList().add(store);
+        store.getCustomers().add(customer);
+        customerRepository.save(customer);
+        storeRepository.save(store);
+    }
 
 }

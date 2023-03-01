@@ -36,6 +36,6 @@ public class MyOrder {
     @ManyToOne
 //    @JoinColumn(name = "customer_order", referencedColumnName = "id")
     @JsonIgnore
-    private Customer customer_order;
+    private Customer customer;
 
 }

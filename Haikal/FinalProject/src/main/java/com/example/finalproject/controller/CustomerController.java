@@ -27,16 +27,16 @@ public class CustomerController {
         return ResponseEntity.status(200).body(customers);
     }
 
-    @GetMapping("/get")
-    public ResponseEntity getCustomerById(@AuthenticationPrincipal MyUser user) {
-        return ResponseEntity.status(200).body(customerService.getCustomerById(user.getId()));
+    @GetMapping("/get/{id}")
+    public ResponseEntity getCustomerById(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(customerService.getCustomerById(id));
     }
 
-//    @PostMapping("/add")
-//    public ResponseEntity<String> addCustomer(@Valid @RequestBody Customer customer) {
-//        customerService.addCustomer(customer);
-//        return ResponseEntity.status(200).body("Customer added!");
-//    }
+    @PostMapping("/add")
+    public ResponseEntity<String> addCustomer(@Valid @RequestBody Customer customer) {
+        customerService.addCustomer(customer);
+        return ResponseEntity.status(200).body("Customer added!");
+    }
 
     @PutMapping("/update")
     public ResponseEntity<String> updateCustomer(@AuthenticationPrincipal MyUser myUser, @Valid @RequestBody Customer updateCustomer) {
@@ -50,24 +50,19 @@ public class CustomerController {
         return ResponseEntity.status(200).body("Customer deleted!");
     }
 
-//    @PostMapping("/addCustomer")
-//    public ResponseEntity assignCustomerToUser(@RequestBody @Valid CustomerDTO customerDTO, @AuthenticationPrincipal MyUser myUser) {
-//        customerService.assignCustomerToUser(customerDTO, myUser.getId());
-//        return ResponseEntity.status(HttpStatus.CREATED).body("assign customer as user registered!");
-//    }
-
-    // TODO: assign order to customer
-//    @PostMapping("/customer/{order_id}")
-//    public ResponseEntity assignOrderToCustomer(@RequestBody @Valid Customer customer, @AuthenticationPrincipal MyUser myUser, @PathVariable Integer order_id) {
-//        customerService.assignOrderToCustomer(customer, myUser.getId());
-//        return ResponseEntity.status(HttpStatus.CREATED).body("assign customer as user registered!");
-//    }
-
 //    @PostMapping("/assign-store")
 //    public ResponseEntity<String> assignCustomerToStore(@AuthenticationPrincipal MyUser myUser, Customer customer) {
 //        customerService.assignCustomerToStore(customer ,myUser.getId());
 //        return ResponseEntity.status(200).body("Assign customer to store!");
 //    }
+
+    @PostMapping("/assign-store/{store_id}")
+    public ResponseEntity<String> assignCustomerToStore(@AuthenticationPrincipal MyUser myUser,
+//                                                        Integer customer_id,
+                                                        @PathVariable Integer store_id) {
+        customerService.assignCustomerToStore(myUser.getId(),store_id);
+        return ResponseEntity.status(200).body("Assign customer to store!");
+    }
 
 
 }

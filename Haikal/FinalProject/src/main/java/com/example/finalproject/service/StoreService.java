@@ -5,6 +5,7 @@ import com.example.finalproject.dto.CustomerDTO;
 import com.example.finalproject.dto.StoreDTO;
 import com.example.finalproject.model.Customer;
 import com.example.finalproject.model.MyUser;
+import com.example.finalproject.model.Product;
 import com.example.finalproject.model.Store;
 import com.example.finalproject.repository.CustomerRepository;
 import com.example.finalproject.repository.MyUserRepository;
@@ -58,19 +59,6 @@ public class StoreService {
         storeRepository.delete(store);
     }
 
-//    public void assignStoreToUser(StoreDTO storeDTO, Integer auth_id) {
-//        MyUser myUser = myUserRepository.findMyUserById(auth_id);
-//        if (myUser == null) {
-//            throw new ApiException("user ID not found");
-//        } else if (myUser.getStore() != null) {
-//            throw new ApiException("Store Already Exist!!!!");
-//        }
-//        myUserRepository.save(myUser);
-//        Store store = new Store(null, storeDTO.getStoreName(), storeDTO.getCity(), storeDTO.getDistrict(), storeDTO.getStreet(),
-//                storeDTO.getPhoneNumber(), storeDTO.getEmail(), storeDTO.getCompanyRegisterUrl(),
-//                storeDTO.isActive(), storeDTO.getCommercialLicense(), null, null, myUser);
-//        storeRepository.save(store);
-//    }
 
     // TODO: assign customer to store
 
@@ -78,8 +66,6 @@ public class StoreService {
 
     // TODO: assign product to store
 
-    public void assignProductToStore(Integer store_id, Integer product_id) {
 
-    }
 
 }

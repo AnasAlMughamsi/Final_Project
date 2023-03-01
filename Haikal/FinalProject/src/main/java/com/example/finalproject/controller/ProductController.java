@@ -1,12 +1,14 @@
 package com.example.finalproject.controller;
 
 import com.example.finalproject.dto.ProductDetailsDTO;
+import com.example.finalproject.model.MyUser;
 import com.example.finalproject.model.Product;
 import com.example.finalproject.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -49,5 +51,10 @@ public class ProductController
         if(isAvailable)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong Id !");
         return ResponseEntity.status(HttpStatus.OK).body("Product deleted !");
+    }
+    @PostMapping("/add-product/{store_id}/{product_id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Integer store_id, @PathVariable Integer product_id, @AuthenticationPrincipal MyUser myUser) {
+        productService.assignProductToStore(store_id, product_id, myUser.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("Assign product to store");
     }
 }

@@ -6,7 +6,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor @NoArgsConstructor
@@ -45,8 +48,15 @@ public class Store {
 
     //  Relationships
 
-    @ManyToMany(mappedBy = "stores")
-    private List<Customer> customers;
+//    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "storeList")
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+    })
+    @JoinTable(name = "customers", joinColumns = @JoinColumn(name = "customer_id"))
+//    private List<Customer> customers;
+    private Set<Customer> customers = new HashSet<>();;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "store_owner")
     private List<Product> productList;
@@ -54,7 +64,8 @@ public class Store {
     @OneToOne
     @MapsId
     @JsonIgnore
-    private MyUser store_user;
+    @JoinColumn(name = "user_id")
+    private MyUser user;
 
 
 }

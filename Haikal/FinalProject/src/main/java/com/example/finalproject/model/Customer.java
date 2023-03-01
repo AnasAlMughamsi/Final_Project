@@ -10,12 +10,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Entity
-//@Table(name = "customer")
+@Table(name = "customer")
 @AllArgsConstructor @NoArgsConstructor
 public class Customer {
 
@@ -45,18 +44,27 @@ public class Customer {
 
 
     //  Relationships
+
     @OneToOne
     @MapsId
     @JsonIgnore
-    @JoinColumn(name = "id")
-    private MyUser myUser;
+    @JoinColumn(name = "user_id")
+    private MyUser user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer_order")
-    private List<MyOrder> orderList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    private Set<MyOrder> myOrders;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "customers")
     @JsonIgnore
-    private List<Store> stores;
+//    @JoinColumn(name = "store_list")
+//    private List<Store> storeList;
+    private Set<Store> storeList = new HashSet<>();;
+
 
 
 }

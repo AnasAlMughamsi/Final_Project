@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/order")
-public class OrderController
+public class MyOrderController
 {
     private final OrderService orderService;
     @GetMapping("/get")
@@ -49,9 +49,9 @@ public class OrderController
 
 
     // TODO: assign order to customer
-    @PostMapping("/addOrder/{order_id}")
-    public ResponseEntity assignOrderToCustomer(MyOrder myOrder, @AuthenticationPrincipal MyUser myUser, @PathVariable Integer order_id) {
-        orderService.assignOrderToCustomer(myOrder, myUser.getId(), order_id);
-        return ResponseEntity.status(HttpStatus.CREATED).body("assign customer as user registered!");
+    @PostMapping("/add-order/{customer_id}/{order_id}")
+    public ResponseEntity<String> assignOrderToCustomer(@PathVariable Integer customer_id, @PathVariable Integer order_id) {
+        orderService.assignOrderToCustomer(customer_id, order_id);
+        return ResponseEntity.status(HttpStatus.OK).body("Assign product to store");
     }
 }

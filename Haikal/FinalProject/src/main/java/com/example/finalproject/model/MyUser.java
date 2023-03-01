@@ -36,12 +36,13 @@ public class MyUser implements UserDetails {
     private String role;
 
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "myUser")
+    @OneToOne(fetch = FetchType.LAZY ,mappedBy = "user")
     @PrimaryKeyJoinColumn
     private Customer customer;
-//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "store_user")
-//    @PrimaryKeyJoinColumn
-//    private Store store;
+
+    @OneToOne(fetch = FetchType.LAZY ,mappedBy = "user")
+    @PrimaryKeyJoinColumn
+    private Store store;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
