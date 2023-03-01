@@ -59,21 +59,7 @@ public class CustomerService {
         customerRepository.delete(customer);
     }
 
-//    public void assignOrderToProduct(Integer product_id, Integer order_id, Integer auth_id) {
-//        Product product = productRepository.findProductById(product_id);
-//        MyOrder myOrder = myOrderRepository.findMyOrderById(order_id);
-//
-//        if(product == null || myOrder == null)  {
-//            throw new ApiException("Customer or order not found");
-//        }
-//        product.getMyOrderList().add(myOrder);
-//        myOrder.getProductList().add(product);
-//        productRepository.save(product);
-//        myOrderRepository.save(myOrder);
-//    }
-//
     public void assignCustomerToStore(Integer store_id, Integer customer_id, Integer auth_id) {
-//        MyUser myUser = myUserRepository.findMyUserById(auth_id);
         Customer customer = customerRepository.findCustomerById(customer_id);
         Store store = storeRepository.findStoreById(store_id);
         if(store == null) {
@@ -82,14 +68,37 @@ public class CustomerService {
         if(customer == null) {
             throw new ApiException("customer not found");
         }
-//        if(!customer.getUser().getRole().equals("customer")) {
-//            throw new ApiException("Unauthorized");
-//        }
 
         store.getCustomers().add(customer);
         customer.getStoreList().add(store);
         customerRepository.save(customer);
         storeRepository.save(store);
+    }
+
+    public String getCustomerByOrderId(Integer customer_id, Integer order_id, Integer auth_id) {
+        Customer customer = customerRepository.findCustomerById(customer_id);
+        MyOrder myOrder = myOrderRepository.findMyOrderById(order_id);
+        if(customer == null) {
+            throw new ApiException("store not found");
+        }
+        if(myOrder == null) {
+            throw new ApiException("customer not found");
+        }
+
+        if (myOrder.getCustomer().getId() == customer_id) {
+            return "customer: " + customer;
+        }
+        return "Customer has no order";
+    }
+
+
+    public List<MyOrder> getOrderByCustomerId(Integer customer_id, Integer auth_id) {
+        Customer customer = customerRepository.findCustomerById(customer_id);
+        if(customer == null) {
+            throw new ApiException("store not found");
+        }
+
+        return customer.getMyOrders();
     }
 
 }

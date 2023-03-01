@@ -48,14 +48,12 @@ public class Product {
 
     // Relationships
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "productList")
-//    @JoinColumn(name = "my-orders", referencedColumnName = "id")
     private List<MyOrder> myOrderList;
 
     @ManyToOne
     @JsonIgnore
     private Store store_owner;
 
-//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
     @OneToOne(fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private ProductDetails productDetails;

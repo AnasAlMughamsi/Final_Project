@@ -2,6 +2,7 @@ package com.example.finalproject.controller;
 
 import com.example.finalproject.model.MyOrder;
 import com.example.finalproject.model.MyUser;
+import com.example.finalproject.service.CustomerService;
 import com.example.finalproject.service.MyOrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 public class MyOrderController
 {
     private final MyOrderService myOrderService;
+    private final CustomerService customerService;
     @GetMapping("/all")
     public ResponseEntity getAllOrder() {
         List<MyOrder> orderList = myOrderService.getAllOrder();
@@ -65,5 +67,12 @@ public class MyOrderController
                                                         @AuthenticationPrincipal MyUser myUser) {
         myOrderService.assignOrderToProduct(product_id, order_id, myUser.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Assign order to product");
+    }
+
+    @GetMapping("/get-order-customer/{customer_id}")
+    public ResponseEntity getOrderByCustomerId(@PathVariable Integer customer_id,
+                                                       @AuthenticationPrincipal MyUser myUser) {
+         List<MyOrder> myOrders = customerService.getOrderByCustomerId(customer_id, myUser.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(myOrders);
     }
 }

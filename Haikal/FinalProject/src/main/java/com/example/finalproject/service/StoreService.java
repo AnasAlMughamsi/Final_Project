@@ -29,7 +29,7 @@ public class StoreService {
 
     public Store getStoreById(Integer id) {
         Store store = storeRepository.findStoreById(id);
-        if(store == null) {
+        if (store == null) {
             throw new ApiException("store not found");
         }
         return store;
@@ -44,7 +44,7 @@ public class StoreService {
 
     public void updateStore(Store updateStore, Integer id) {
         Store store = storeRepository.findStoreById(id);
-        if(store == null) {
+        if (store == null) {
             throw new ApiException("store not found, wrong id");
         }
         updateStore.setId(id);
@@ -53,19 +53,22 @@ public class StoreService {
 
     public void deleteStore(Integer id) {
         Store store = storeRepository.findStoreById(id);
-        if(store == null) {
+        if (store == null) {
             throw new ApiException("Wrong store id");
         }
         storeRepository.delete(store);
     }
 
-
-    // TODO: assign customer to store
-
-
-
-    // TODO: assign product to store
-
-
-
+    public void changeStoreStatus(Integer store_id) {
+        Store store = storeRepository.findStoreById(store_id);
+        if (store == null) {
+            throw new ApiException("Store not found");
+        }
+        if (!store.isActive()) {
+            store.setActive(true);
+        } else {
+            store.setActive(false);
+        }
+        storeRepository.save(store);
+    }
 }

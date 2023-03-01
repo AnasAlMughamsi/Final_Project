@@ -11,9 +11,7 @@ import com.example.finalproject.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +32,10 @@ public class AdminController {
         List<MyUser> userList = myUserService.getAllMyUsers();
         return ResponseEntity.status(200).body(userList);
     }
+    @GetMapping("/user/{id}")
+    public ResponseEntity getUserById(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(myUserService.getMyUserById(id));
+    }
 
     @GetMapping("/all-customers")
     public ResponseEntity<List<Customer>> getAllCustomers() {
@@ -41,9 +43,26 @@ public class AdminController {
         return ResponseEntity.status(200).body(customers);
     }
 
+    @GetMapping("/customer/{id}")
+    public ResponseEntity getCustomerById(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(customerService.getCustomerById(id));
+    }
+
     @GetMapping("/all-store")
     public ResponseEntity<List<Store>> getAllStores() {
         List<Store> store = storeService.getAllStores();
         return ResponseEntity.status(200).body(store);
+    }
+
+    @GetMapping("/store/{id}")
+    public ResponseEntity getStoreById(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(storeService.getStoreById(id));
+    }
+
+
+    @PostMapping("/store-status/{store_id}")
+    public ResponseEntity changeStoreStatus(@PathVariable Integer store_id) {
+        storeService.changeStoreStatus(store_id);
+        return ResponseEntity.status(200).body("change store status");
     }
 }
