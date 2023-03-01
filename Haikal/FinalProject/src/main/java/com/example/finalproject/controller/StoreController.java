@@ -4,9 +4,11 @@ import com.example.finalproject.api.ApiResponse;
 import com.example.finalproject.dto.CustomerDTO;
 import com.example.finalproject.dto.StoreDTO;
 import com.example.finalproject.model.Customer;
+import com.example.finalproject.model.MyOrder;
 import com.example.finalproject.model.MyUser;
 import com.example.finalproject.model.Store;
 import com.example.finalproject.service.CustomerService;
+import com.example.finalproject.service.MyOrderService;
 import com.example.finalproject.service.StoreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class StoreController {
 
     private final StoreService storeService;
     private final CustomerService customerService;
+    private final MyOrderService myOrderService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Store>> getAllStore() {
@@ -54,14 +57,10 @@ public class StoreController {
     }
 
 
-//    @PostMapping("/addStore")
-//    public ResponseEntity assignStoreToUser(@RequestBody @Valid StoreDTO storeDTO, @AuthenticationPrincipal MyUser myUser) {
-//        storeService.assignStoreToUser(storeDTO, myUser.getId());
-//        return ResponseEntity.status(HttpStatus.CREATED).body("assign store as user!");
-//    }
-
 
 
     // ==================== assigns ====================
+
+
 
 }

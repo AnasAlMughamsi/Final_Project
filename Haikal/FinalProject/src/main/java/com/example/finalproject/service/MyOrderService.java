@@ -2,10 +2,7 @@ package com.example.finalproject.service;
 
 import com.example.finalproject.api.ApiException;
 import com.example.finalproject.model.*;
-import com.example.finalproject.repository.CustomerRepository;
-import com.example.finalproject.repository.MyOrderRepository;
-import com.example.finalproject.repository.MyUserRepository;
-import com.example.finalproject.repository.ProductRepository;
+import com.example.finalproject.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +15,7 @@ public class MyOrderService
     private final MyOrderRepository myOrderRepository;
     private final CustomerRepository customerRepository;
     private final ProductRepository productRepository;
+    private final StoreRepository storeRepository;
     private final MyUserRepository myUserRepository;
 
     public List<MyOrder> getAllOrder() {
@@ -79,6 +77,34 @@ public class MyOrderService
         myOrder.getProductList().add(product);
         productRepository.save(product);
         myOrderRepository.save(myOrder);
+    }
+    public void assignOrderToStore(Integer store_id, Integer order_id, Integer auth_id) {
+        Store store = storeRepository.findStoreById(store_id);
+        MyOrder myOrder = myOrderRepository.findMyOrderById(order_id);
+
+        if(store == null || myOrder == null)  {
+            throw new ApiException("Customer or order not found");
+        }
+        store.getOrderList().add(myOrder);
+        myOrder.setStore_orders(store);
+        storeRepository.save(store);
+        myOrderRepository.save(myOrder);
+    }
+
+
+    public List<MyOrder> getOrdersByStoreId(Integer auth_id, Integer store_id) {
+//        MyOrder myOrder = myOrderRepository.findMyOrderById(order_id);
+        Store store = storeRepository.findStoreById(store_id);
+        if(store == null) {
+            throw new ApiException("Store not found");
+        }
+//        for (int i = 0; i < myOrder.getProductList().size(); i++) {
+//            if (myOrder.getProductList().get(i).getStore_owner().getId() == store.getId()) {
+//                return "Store orders: " + myOrder;
+//            }
+//        }
+        return store.getOrderList();
+
     }
 
 

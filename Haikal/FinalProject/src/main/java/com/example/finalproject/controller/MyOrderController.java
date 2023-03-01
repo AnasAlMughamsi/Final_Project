@@ -53,8 +53,24 @@ public class MyOrderController
         return ResponseEntity.status(HttpStatus.OK).body("Order deleted !");
     }
 
+    // ================================== get order ==================================
 
-    // TODO: assign order to customer
+    @GetMapping("/get-order-customer/{customer_id}")
+    public ResponseEntity getOrderByCustomerId(@PathVariable Integer customer_id,
+                                               @AuthenticationPrincipal MyUser myUser) {
+        List<MyOrder> myOrders = customerService.getOrderByCustomerId(customer_id, myUser.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(myOrders);
+    }
+
+    @GetMapping("/order-store/{store_id}")
+    public ResponseEntity getOrderByStoreId(@PathVariable Integer store_id,
+                                            @AuthenticationPrincipal MyUser myUser) {
+        List<MyOrder> myOrders = myOrderService.getOrdersByStoreId(myUser.getId(), store_id);
+        return ResponseEntity.status(HttpStatus.OK).body(myOrders);
+    }
+
+
+    // ================================== assign orders ==================================
     @PostMapping("/order-customer/{customer_id}/{order_id}")
     public ResponseEntity<String> assignOrderToCustomer(@PathVariable Integer customer_id, @PathVariable Integer order_id,
                                                         @AuthenticationPrincipal MyUser myUser) {
@@ -69,10 +85,12 @@ public class MyOrderController
         return ResponseEntity.status(HttpStatus.OK).body("Assign order to product");
     }
 
-    @GetMapping("/get-order-customer/{customer_id}")
-    public ResponseEntity getOrderByCustomerId(@PathVariable Integer customer_id,
-                                                       @AuthenticationPrincipal MyUser myUser) {
-         List<MyOrder> myOrders = customerService.getOrderByCustomerId(customer_id, myUser.getId());
-        return ResponseEntity.status(HttpStatus.OK).body(myOrders);
+
+    @PostMapping("/order-store/{store_id}/{order_id}")
+    public ResponseEntity<String> assignOrderToStore(@PathVariable Integer store_id, @PathVariable Integer order_id,
+                                                     @AuthenticationPrincipal MyUser myUser) {
+        myOrderService.assignOrderToStore(store_id, order_id, myUser.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("Assign order to store");
     }
+
 }

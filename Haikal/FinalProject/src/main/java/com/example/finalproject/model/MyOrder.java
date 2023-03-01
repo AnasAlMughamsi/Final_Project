@@ -37,4 +37,8 @@ public class MyOrder {
     @JsonIgnore
     private Customer customer;
 
+    @ManyToOne
+    @JsonIgnore
+    private Store store_orders;
+
 }

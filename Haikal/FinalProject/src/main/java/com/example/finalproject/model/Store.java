@@ -60,6 +60,9 @@ public class Store {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "store_owner")
     private List<Product> productList;
 
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "store_orders")
+    private List<MyOrder> orderList ;
     @OneToOne
     @MapsId
     @JsonIgnore
