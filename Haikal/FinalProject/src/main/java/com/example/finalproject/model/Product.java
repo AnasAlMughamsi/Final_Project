@@ -52,7 +52,6 @@ public class Product {
     private List<MyOrder> myOrderList;
 
     @ManyToOne
-//    @JoinColumn(name = "store", referencedColumnName = "id")
     @JsonIgnore
     private Store store_owner;
 

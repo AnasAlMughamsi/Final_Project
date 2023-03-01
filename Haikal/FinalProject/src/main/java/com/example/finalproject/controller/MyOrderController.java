@@ -2,7 +2,7 @@ package com.example.finalproject.controller;
 
 import com.example.finalproject.model.MyOrder;
 import com.example.finalproject.model.MyUser;
-import com.example.finalproject.service.OrderService;
+import com.example.finalproject.service.MyOrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,23 +17,27 @@ import java.util.List;
 @RequestMapping("/api/v1/order")
 public class MyOrderController
 {
-    private final OrderService orderService;
-    @GetMapping("/get")
-    public ResponseEntity getOrder()
-    {
-        List<MyOrder> orderList = orderService.getOrder();
+    private final MyOrderService myOrderService;
+    @GetMapping("/all")
+    public ResponseEntity getAllOrder() {
+        List<MyOrder> orderList = myOrderService.getAllOrder();
         return ResponseEntity.status(HttpStatus.OK).body(orderList);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity getOrderById(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(myOrderService.getOrderById(id));
     }
     @PostMapping("/add")
     public ResponseEntity addOrder(@Valid @RequestBody MyOrder order)
     {
-        orderService.addOrder(order);
+        myOrderService.addOrder(order);
         return ResponseEntity.status(HttpStatus.OK).body("Order added !");
     }
     @PutMapping("/update/{id}")
     public ResponseEntity updateOrder(@PathVariable Integer id,@Valid @RequestBody MyOrder order)
     {
-        boolean isAvailable = orderService.updateOrder(id, order);
+        boolean isAvailable = myOrderService.updateOrder(id, order);
         if(isAvailable)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong Id !");
         return ResponseEntity.status(HttpStatus.OK).body("Order updated !");
@@ -41,7 +45,7 @@ public class MyOrderController
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteOrder(@PathVariable Integer id)
     {
-        boolean isAvailable = orderService.deleteOrder(id);
+        boolean isAvailable = myOrderService.deleteOrder(id);
         if(isAvailable)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong Id !");
         return ResponseEntity.status(HttpStatus.OK).body("Order deleted !");
@@ -49,9 +53,17 @@ public class MyOrderController
 
 
     // TODO: assign order to customer
-    @PostMapping("/add-order/{customer_id}/{order_id}")
-    public ResponseEntity<String> assignOrderToCustomer(@PathVariable Integer customer_id, @PathVariable Integer order_id) {
-        orderService.assignOrderToCustomer(customer_id, order_id);
-        return ResponseEntity.status(HttpStatus.OK).body("Assign product to store");
+    @PostMapping("/order-customer/{customer_id}/{order_id}")
+    public ResponseEntity<String> assignOrderToCustomer(@PathVariable Integer customer_id, @PathVariable Integer order_id,
+                                                        @AuthenticationPrincipal MyUser myUser) {
+        myOrderService.assignOrderToCustomer(customer_id, order_id, myUser.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("Assign order to customer");
+    }
+
+    @PostMapping("/order-product/{product_id}/{order_id}")
+    public ResponseEntity<String> assignOrderToProduct(@PathVariable Integer product_id, @PathVariable Integer order_id,
+                                                        @AuthenticationPrincipal MyUser myUser) {
+        myOrderService.assignOrderToProduct(product_id, order_id, myUser.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("Assign order to product");
     }
 }

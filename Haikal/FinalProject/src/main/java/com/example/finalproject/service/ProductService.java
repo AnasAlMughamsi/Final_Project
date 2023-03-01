@@ -26,6 +26,13 @@ public class ProductService
         return productRepository.findAll();
     }
 
+    public Product getProductById(Integer id) {
+        Product product = productRepository.findProductById(id);
+        if(product == null) {
+            throw new ApiException("product not found!");
+        }
+        return product;
+    }
     public void addProduct(Product product) {
         productRepository.save(product);
     }

@@ -20,8 +20,13 @@ public class ProductController
 {
     private final ProductService productService;
 
+    @GetMapping("/get/{id}")
+    public ResponseEntity getProductById(@PathVariable Integer id) {
+        return ResponseEntity.status(200).body(productService.getProductById(id));
+    }
+
     @GetMapping("/all")
-    public ResponseEntity getProduct() {
+    public ResponseEntity getAllProduct() {
         List<Product>productList = productService.getAllProduct();
         return ResponseEntity.status(200).body(productList);
     }
@@ -53,7 +58,8 @@ public class ProductController
         return ResponseEntity.status(HttpStatus.OK).body("Product deleted !");
     }
     @PostMapping("/add-product/{store_id}/{product_id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable Integer store_id, @PathVariable Integer product_id, @AuthenticationPrincipal MyUser myUser) {
+    public ResponseEntity<String> deleteProduct(@PathVariable Integer store_id, @PathVariable Integer product_id,
+                                                @AuthenticationPrincipal MyUser myUser) {
         productService.assignProductToStore(store_id, product_id, myUser.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Assign product to store");
     }

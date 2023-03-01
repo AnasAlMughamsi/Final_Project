@@ -55,8 +55,7 @@ public class Store {
                 CascadeType.MERGE
     })
     @JoinTable(name = "customers", joinColumns = @JoinColumn(name = "customer_id"))
-//    private List<Customer> customers;
-    private Set<Customer> customers = new HashSet<>();;
+    private List<Customer> customers;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "store_owner")
     private List<Product> productList;

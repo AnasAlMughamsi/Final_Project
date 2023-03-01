@@ -34,7 +34,6 @@ public class MyOrder {
     private List<Product> productList;
 
     @ManyToOne
-//    @JoinColumn(name = "customer_order", referencedColumnName = "id")
     @JsonIgnore
     private Customer customer;
 

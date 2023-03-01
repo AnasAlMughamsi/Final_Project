@@ -52,7 +52,8 @@ public class Customer {
     private MyUser user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Set<MyOrder> myOrders;
+    private List<MyOrder> myOrders;
+
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -62,8 +63,7 @@ public class Customer {
             mappedBy = "customers")
     @JsonIgnore
 //    @JoinColumn(name = "store_list")
-//    private List<Store> storeList;
-    private Set<Store> storeList = new HashSet<>();;
+    private List<Store> storeList;
 
 
 
