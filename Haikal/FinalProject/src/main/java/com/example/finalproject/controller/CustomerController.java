@@ -1,7 +1,5 @@
 package com.example.finalproject.controller;
 
-import com.example.finalproject.api.ApiResponse;
-import com.example.finalproject.dto.CustomerDTO;
 import com.example.finalproject.model.Customer;
 import com.example.finalproject.model.MyUser;
 import com.example.finalproject.service.CustomerService;
@@ -50,18 +48,11 @@ public class CustomerController {
         return ResponseEntity.status(200).body("Customer deleted!");
     }
 
-//    @PostMapping("/assign-store")
-//    public ResponseEntity<String> assignCustomerToStore(@AuthenticationPrincipal MyUser myUser, Customer customer) {
-//        customerService.assignCustomerToStore(customer ,myUser.getId());
-//        return ResponseEntity.status(200).body("Assign customer to store!");
-//    }
-
-    @PostMapping("/assign-store/{store_id}")
-    public ResponseEntity<String> assignCustomerToStore(@AuthenticationPrincipal MyUser myUser,
-//                                                        Integer customer_id,
-                                                        @PathVariable Integer store_id) {
-        customerService.assignCustomerToStore(myUser.getId(),store_id);
-        return ResponseEntity.status(200).body("Assign customer to store!");
+    @PostMapping("/assign-store/{store_id}/{customer_id}")
+    public ResponseEntity<String> assignOrderToProduct(@PathVariable Integer customer_id, @PathVariable Integer store_id,
+                                                       @AuthenticationPrincipal MyUser myUser) {
+        customerService.assignCustomerToStore(store_id, customer_id, myUser.getId());
+        return ResponseEntity.status(HttpStatus.OK).body("Assign customer to store");
     }
 
 

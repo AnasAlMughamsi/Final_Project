@@ -2,10 +2,7 @@ package com.example.finalproject.service;
 
 import com.example.finalproject.api.ApiException;
 import com.example.finalproject.dto.CustomerDTO;
-import com.example.finalproject.model.Customer;
-import com.example.finalproject.model.MyOrder;
-import com.example.finalproject.model.MyUser;
-import com.example.finalproject.model.Store;
+import com.example.finalproject.model.*;
 import com.example.finalproject.repository.CustomerRepository;
 import com.example.finalproject.repository.MyOrderRepository;
 import com.example.finalproject.repository.MyUserRepository;
@@ -62,9 +59,22 @@ public class CustomerService {
         customerRepository.delete(customer);
     }
 
-    public void assignCustomerToStore(Integer auth_id, Integer store_id) {
-        MyUser myUser = myUserRepository.findMyUserById(auth_id);
-        Customer customer = customerRepository.findCustomerById(myUser.getCustomer().getId());
+//    public void assignOrderToProduct(Integer product_id, Integer order_id, Integer auth_id) {
+//        Product product = productRepository.findProductById(product_id);
+//        MyOrder myOrder = myOrderRepository.findMyOrderById(order_id);
+//
+//        if(product == null || myOrder == null)  {
+//            throw new ApiException("Customer or order not found");
+//        }
+//        product.getMyOrderList().add(myOrder);
+//        myOrder.getProductList().add(product);
+//        productRepository.save(product);
+//        myOrderRepository.save(myOrder);
+//    }
+//
+    public void assignCustomerToStore(Integer store_id, Integer customer_id, Integer auth_id) {
+//        MyUser myUser = myUserRepository.findMyUserById(auth_id);
+        Customer customer = customerRepository.findCustomerById(customer_id);
         Store store = storeRepository.findStoreById(store_id);
         if(store == null) {
             throw new ApiException("store not found");
@@ -72,12 +82,12 @@ public class CustomerService {
         if(customer == null) {
             throw new ApiException("customer not found");
         }
-        if(!customer.getUser().getRole().equals("customer")) {
-            throw new ApiException("Unauthorized");
-        }
+//        if(!customer.getUser().getRole().equals("customer")) {
+//            throw new ApiException("Unauthorized");
+//        }
 
-        customer.getStoreList().add(store);
         store.getCustomers().add(customer);
+        customer.getStoreList().add(store);
         customerRepository.save(customer);
         storeRepository.save(store);
     }
